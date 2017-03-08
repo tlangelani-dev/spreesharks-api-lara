@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Device;
-use App\Spree\Push;
 use Illuminate\Http\Request;
 
 class DevicesController extends Controller
 {
     public function registered()
     {
-        $device = Device::all();
+        $device = Device::orderBy('id', 'desc')->get();
         return response()->json($device);
     }
 
@@ -26,19 +25,21 @@ class DevicesController extends Controller
 
     public function push(Request $request) {
         $all = $request->all();
+        $token = $all['token'];
+        $sku = $all['sku'];
         die('DYING FOR NOW...');
         // Put your device token here (without spaces):
         // $deviceToken = 'ad648e26c765d78bad945eaf7eed7b192ffe6ed47fbfcfe973a11e7ed96931f2';
         $deviceToken = $all['deviceToken'];
 
         // Put your private key's passphrase here:
-        $passphrase = '';
+        $passphrase = 'spreesharks';
 
-        $url = '';
-        $message = '';
+        $url = 'https://api-dev.spreeza.net/cart/';
+        $message = 'Spree Sharks App';
 
         $ctx = stream_context_create();
-        stream_context_set_option($ctx, 'ssl', 'local_cert', 'ck.pem');
+        stream_context_set_option($ctx, 'ssl', 'local_cert', 'ApplePushCert.pem');
         stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
 
         // Open a connection to the APNS server
