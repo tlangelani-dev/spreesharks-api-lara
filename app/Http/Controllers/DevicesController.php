@@ -13,8 +13,13 @@ class DevicesController extends Controller
         return response()->json($device);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        return 'STORE';
+        $all = $request->all();
+        $device = new Device;
+        $device->email = $all['email'];
+        $device->token = $all['token'];
+        $result = $device->save();
+        return response()->json($result);
     }
 }
