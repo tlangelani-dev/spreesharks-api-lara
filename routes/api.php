@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/', 'DevicesController@registered');
 Route::post('/', 'DevicesController@store');
+Route::get('/push', 'DevicesController@push');
